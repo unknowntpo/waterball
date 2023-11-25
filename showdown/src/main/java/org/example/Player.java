@@ -30,10 +30,12 @@ public abstract class Player {
     private String name;
 
     // return the index in hand that this player wanna pick
-    public abstract int getInput();
+    public abstract int getShowCardInput();
 
     public void drawCard(Deck deck) {
-        hand.add(deck.drawCard());
+        Card card = deck.drawCard();
+        card.setOwner(this);
+        hand.add(card);
     }
 
     public void nameHimself() {
@@ -46,7 +48,7 @@ public abstract class Player {
     public abstract void exchangeHands(int round);
 
     public Card showCard() {
-        int idx = getInput();
+        int idx = getShowCardInput();
         Card card = hand.get(idx);
         hand.remove(idx);
         return card;

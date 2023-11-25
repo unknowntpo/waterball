@@ -23,7 +23,7 @@ public class ShowdownGame {
     public ShowdownGame() {
         this.deck = new Deck();
         this.changeBackEvents = new ArrayList<>();
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 14; i++) {
             this.changeBackEvents.add(new ArrayList<ExchangeHands>());
         }
     }
@@ -37,14 +37,22 @@ public class ShowdownGame {
     public void start() {
         // (ai) Ask p1 ~ p4 to name themselves
         // (aii) Shuffle the deck.
+        System.out.println("[Player]: naming themselves");
         for (Player p : players) {
+
             p.nameHimself();
         }
+
+        System.out.println("[Deck]: shuffling");
+
         deck.shuffle();
 
         int rounds = 13;
         // DrawCard phase:
         // P1 ~ p4 DrawCard until everyone has 13 cards.
+
+        System.out.println("[Player]: drawing cards");
+
         for (int i = 1; i <= rounds; i++) {
             for (int j = 0; j < players.size() && !deck.isEmpty(); j++) {
                 players.get(j).drawCard(deck);
@@ -61,13 +69,20 @@ public class ShowdownGame {
             // map from index of player to cards
             List<Card> cards = new ArrayList<>();
             for (int j = 0; j < players.size(); j++) {
-                Player player = players.get(i);
+                Player player = players.get(j);
                 if (player.useExchangeHands()) {
                     player.exchangeHands(i);
                 }
-                // FIXME: if this player has no card, then skip this turn.
+                // if this player has no card, then skip this turn.
+                if (player.getHand().size() == 0) {
+                    continue;
+                }
                 cards.add(player.showCard());
             }
+            for (Card c : cards) {
+                System.out.printf("card, %s\t", c.toString());
+            }
+            System.out.println();
             Player winner = getTurnWinner(cards);
             winner.addPointBy(1);
         }
@@ -96,7 +111,7 @@ public class ShowdownGame {
             throw new IllegalArgumentException(String.format("invalid player id"));
         }
         if (id == except) {
-            throw new IllegalArgumentException(String.format("invalid player id"));
+            throw new IllegalArgumentException(String.format("invalid player id, id can't be %d", except));
         }
         return 0;
     }

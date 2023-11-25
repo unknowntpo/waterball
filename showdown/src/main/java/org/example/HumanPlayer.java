@@ -10,8 +10,9 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public int getInput() {
-        System.out.printf("pick 1 card idx in range [0, %d]\n", 0, super.getHand().size() - 1);
+    public int getShowCardInput() {
+        System.out.printf("[Player %s (ID: %d)] pick 1 card idx in range [0, %d]\n", this.getName(), this.getID(),
+                super.getHand().size() - 1);
         Console console = System.console();
         String input = "";
         if (console != null) {
@@ -23,24 +24,32 @@ public class HumanPlayer extends Player {
 
     @Override
     public boolean useExchangeHands() {
+        if (!super.canExchange)
+            return false;
+
         System.out.println("use exchangeHands is this turn ? (y/n)");
         Console console = System.console();
         String input = "";
         if (console != null) {
             input = console.readLine();
         }
-        boolean use;
-        switch (input) {
-            case "y":
-            case "Y":
-                use = true;
-                break;
-            case "n":
-            case "N":
-                use = false;
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("want y/n, got %v"));
+        boolean use = false;
+        boolean valid = false;
+        while (valid == false) {
+            switch (input) {
+                case "y":
+                case "Y":
+                    use = true;
+                    valid = true;
+                    break;
+                case "n":
+                case "N":
+                    use = false;
+                    valid = true;
+                    break;
+                default:
+                    System.out.printf("want y/n, got %v\n");
+            }
         }
         return use;
     }
@@ -63,7 +72,7 @@ public class HumanPlayer extends Player {
     public Player pickPlayerExcept(int ID) {
         int numPlayers = super.game.getPlayers().size();
 
-        System.out.printf("choose id betwen [0, %d] except %d to exchange cards\n", this.ID, numPlayers - 1);
+        System.out.printf("choose id betwen [0, %d] except %d to exchange cards\n", numPlayers - 1, ID);
         String input = "";
         Console console = System.console();
         if (console != null) {

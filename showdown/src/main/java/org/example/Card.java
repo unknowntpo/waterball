@@ -3,23 +3,20 @@ package org.example;
 public class Card {
     private Rank rank;
     private Suit suit;
+    private boolean visible;
+    private Player owner;
 
     public Rank getRank() {
         return rank;
     }
 
-
     public Suit getSuit() {
         return suit;
     }
 
-    private boolean visible;
-    private Player owner;
-
     public Player getOwner() {
         return owner;
     }
-
 
     public void setOwner(Player owner) {
         this.owner = owner;
@@ -37,7 +34,6 @@ public class Card {
         return visible;
     }
 
-
     public Card(Rank rank, Suit suit, boolean visible, Player owner) {
         this.rank = rank;
         this.suit = suit;
@@ -49,5 +45,3 @@ public class Card {
         this.visible = visible;
     }
 }
-
-

@@ -6,7 +6,7 @@ public class AIPlayer extends Player {
     }
 
     @Override
-    public int getInput() {
+    public int getShowCardInput() {
         // TODO Auto-generated method stub
         return (int) Math.random() * super.hand.size();
     }
