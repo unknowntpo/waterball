@@ -1,4 +1,4 @@
-use crate::hero::Hero;
+use crate::hero::*;
 use log::info;
 use std::mem;
 

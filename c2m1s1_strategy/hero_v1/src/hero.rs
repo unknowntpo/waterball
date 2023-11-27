@@ -1,44 +1,55 @@
 use log::info;
+use std::fmt;
+use std::sync::Arc;
 
-#[derive(Debug)]
 pub struct Hero {
     pub name: String,
     hp: i32,
-    attack_type: AttackType,
+    attack_type: Arc<dyn AttackType>,
 }
 
-#[derive(Debug)]
-pub enum AttackType {
-    Fireball,
-    Waterball,
-    Earthball,
+pub trait AttackType {
+    fn attack(&self, attacker: &mut Hero, attacked: &mut Hero);
+}
+
+pub struct Fireball {}
+impl AttackType for Fireball {
+    fn attack(&self, attacker: &mut Hero, attacked: &mut Hero) {
+        attacked.damage((attacker.hp as f64 * 0.5) as i32);
+    }
+}
+
+pub struct Waterball {}
+impl AttackType for Waterball {
+    fn attack(&self, _attacker: &mut Hero, attacked: &mut Hero) {
+        for _ in 0..3 {
+            attacked.damage(50);
+        }
+    }
+}
+
+#[derive(Clone)]
+pub struct Earthball {}
+impl AttackType for Earthball {
+    fn attack(&self, _attacker: &mut Hero, attacked: &mut Hero) {
+        for _ in 0..10 {
+            attacked.damage(20);
+        }
+    }
 }
 
 impl Hero {
-    pub fn new(name: String, attack_type: AttackType) -> Hero {
+    pub fn new(name: String, attack_type: Arc<dyn AttackType>) -> Hero {
         Hero {
             name: name,
             attack_type: attack_type,
             hp: 500,
         }
     }
-    pub fn attack(&self, hero: &mut Hero) {
+    pub fn attack(&mut self, hero: &mut Hero) {
         info!("hero {:?} attack hero: {:?}", self, hero);
-        match self.attack_type {
-            AttackType::Fireball => {
-                hero.damage((self.hp as f64 * 0.5) as i32);
-            }
-            AttackType::Waterball => {
-                for _ in 0..3 {
-                    hero.damage(50);
-                }
-            }
-            AttackType::Earthball => {
-                for _ in 0..10 {
-                    hero.damage(20);
-                }
-            }
-        }
+        let attack_type = &self.attack_type.clone();
+        attack_type.attack(self, hero);
     }
     fn damage(&mut self, hp: i32) {
         info!("causing {} damage on {:?}", hp, self);
@@ -46,5 +57,15 @@ impl Hero {
     }
     pub fn is_dead(&self) -> bool {
         return self.hp <= 0;
+    }
+}
+
+impl fmt::Debug for Hero {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Hero")
+            .field("name", &self.name)
+            .field("hp", &self.hp)
+            .field("attack_type", &"Custom Debug Implementation")
+            .finish()
     }
 }
