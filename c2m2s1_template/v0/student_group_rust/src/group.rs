@@ -17,6 +17,7 @@ impl LangBasedGroupStrategy {
     pub fn new() -> LangBasedGroupStrategy {
         LangBasedGroupStrategy {}
     }
+    // Spencer 14y C# 學生 [10 11 15 18 19]
     pub fn group(&self, students: Vec<Student>) -> Result<Vec<Group>, GroupErr> {
         todo!("impl LangBasedGroupStrategy");
     }

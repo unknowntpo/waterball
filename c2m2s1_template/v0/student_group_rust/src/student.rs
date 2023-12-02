@@ -3,7 +3,7 @@ pub struct Student {
     experience: i32,
     language: String,
     jobTitle: String,
-    availableTimeSlots: [bool; 13],
+    availableTimeSlots: Vec<i8>,
 }
 
 impl Student {
@@ -12,7 +12,7 @@ impl Student {
         experience: i32,
         language: &str,
         job_title: &str,
-        available_time_slots: [bool; 13],
+        available_time_slots: Vec<i8>,
     ) -> Student {
         Student {
             name: name.to_string(),
