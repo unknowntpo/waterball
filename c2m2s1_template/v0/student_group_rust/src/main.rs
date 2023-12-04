@@ -9,10 +9,10 @@ fn main() {
     let content = read_file("student.data").unwrap();
     let students = parse_student_data(content).unwrap();
 
-    // first cut
     let groupStrategy = group::LangBasedGroupStrategy::new();
 
-    groupStrategy.group(students).unwrap(); // can't call
+    let groups = groupStrategy.group(students).unwrap(); // can't call
+    println!("groups: {:?}", groups.len());
 }
 
 type ParseErr = String;

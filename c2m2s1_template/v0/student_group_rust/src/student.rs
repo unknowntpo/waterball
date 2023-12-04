@@ -1,9 +1,10 @@
+#[derive(Clone, Debug)]
 pub struct Student {
-    name: String,
-    experience: i32,
-    language: String,
-    jobTitle: String,
-    availableTimeSlots: Vec<i8>,
+    pub name: String,
+    pub experience: i32,
+    pub language: String,
+    pub jobTitle: String,
+    pub availableTimeSlots: Vec<i8>,
 }
 
 impl Student {
