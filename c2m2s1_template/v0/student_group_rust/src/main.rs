@@ -12,7 +12,7 @@ fn main() {
     let groupStrategy = group::LangBasedGroupStrategy::new();
 
     let groups = groupStrategy.group(students).unwrap(); // can't call
-    println!("groups: {:?}", groups.len());
+    dbg!("groups: {:?}", &groups[0]);
 }
 
 type ParseErr = String;
@@ -49,8 +49,6 @@ fn parse_student_data(s: String) -> Result<Vec<Student>, ParseErr> {
         if tokens.len() != 5 {
             return Err(format!("wrong number of arguments in {:?}", tokens));
         }
-
-        println!("tokens: {:?}", tokens);
 
         students.push(Student::new(
             tokens[0],
