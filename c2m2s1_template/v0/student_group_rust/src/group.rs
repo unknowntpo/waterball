@@ -24,6 +24,10 @@ impl Group {
             students: students.to_vec(),
         }
     }
+
+    pub fn merge(&mut self, g0: &mut Group) {
+        self.students.append(&mut g0.students);
+    }
 }
 
 type GroupErr = String;
@@ -59,20 +63,44 @@ impl LangBasedGroupStrategy {
         let mut groups_by_num_students: Vec<Group> = Vec::new();
         // second cut: 6 people a group
         for mut group in groups_by_lang {
-            let right_students = group.students.split_off(6);
-            let right_group = Group::new(&right_students);
+            while group.students.len() > 6 {
+                let right_students: Vec<Student>;
+                right_students = group.students.split_off(group.students.len() - 6);
+                let right_group = Group::new(&right_students);
+                groups_by_num_students.push(right_group);
+            }
             groups_by_num_students.push(group);
-            groups_by_num_students.push(right_group);
-            // test move
         }
 
         // third cut: merge group, <6 merge with >=6 and with same language
-        Ok(groups_by_num_students)
+        let mut non_full_groups: Vec<Group> = Vec::new();
+        let mut full_groups: Vec<Group> = Vec::new();
+        for group in groups_by_num_students {
+            if group.students.len() == 6 {
+                full_groups.push(group);
+            } else {
+                non_full_groups.push(group);
+            }
+        }
+
+        for mut g0 in &mut non_full_groups {
+            for g1 in &mut full_groups {
+                if g1.students[0].language == g0.students[0].language {
+                    g1.merge(&mut g0);
+                    break;
+                }
+            }
+        }
+
+        for g in &non_full_groups {
+            println!("non full groups len: {}", g.students.len());
+        }
+
+        let _ = &full_groups
+            .iter()
+            .take_while(|g| g.students.len() == 6)
+            .map(|g| println!("len {} ", g.students.len()));
+
+        Ok(full_groups)
     }
 }
-
-// impl GroupStrategy for LangBasedGroupStrategy {
-//     fn group(&self, students: Vec<Student>) -> Result<Vec<Group>, GroupErr> {
-//         todo!("impl LangBasedGroupStrategy");
-//     }
-// }
