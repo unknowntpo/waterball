@@ -1,7 +1,7 @@
 mod group;
 mod student;
 
-use group::{GroupStrategy, LangBasedGroupStrategy, TimeSlotsBasedGroupStrategy};
+use group::{GroupStrategy, LangBasedGroupStrategy};
 use std::fs::File;
 use std::io::{Read, Result as IOResult};
 use std::rc::Rc;
@@ -15,9 +15,9 @@ fn main() {
     let groups = groupStrategy.group(students.clone()).unwrap(); // can't call
     dbg!("groups: {:?}", &groups[0]);
 
-    let groupStrategy2: Rc<dyn GroupStrategy> = Rc::new(TimeSlotsBasedGroupStrategy::new());
-    let groups = groupStrategy2.group(students.clone()).unwrap(); // can't call
-    dbg!("groups: {:?}", &groups[0]);
+    // let groupStrategy2: Rc<dyn GroupStrategy> = Rc::new(TimeSlotsBasedGroupStrategy::new());
+    // let groups = groupStrategy2.group(students.clone()).unwrap(); // can't call
+    // dbg!("groups: {:?}", &groups[0]);
 }
 
 type ParseErr = String;
