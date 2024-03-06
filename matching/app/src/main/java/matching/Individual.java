@@ -7,9 +7,19 @@ public class Individual {
     // char[0,200]
     private String intro;
     private String habits;
-    private String Coor;
+    private String coor;
 
-    private enum Gender {
-        MALE, FEMAIL
+    public enum Gender {
+        MALE, FEMALE
+    }
+
+    // Constructor
+    public Individual(int id, Gender gender, int age, String intro, String habits, String coor) {
+        this.id = id;
+        this.gender = gender;
+        this.age = age;
+        this.intro = intro;
+        this.habits = habits;
+        this.coor = coor;
     }
 }
