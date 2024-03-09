@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.engine.support.discovery.SelectorResolver.Match;
 
 public class HabitBasedMatchingStrategyTest {
     private MatchingStrategy strategy;
