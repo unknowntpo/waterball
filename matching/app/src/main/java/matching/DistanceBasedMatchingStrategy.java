@@ -3,6 +3,7 @@ package matching;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,19 +18,25 @@ public class DistanceBasedMatchingStrategy extends MatchingStrategy {
         HashMap<Integer, Boolean> selected = new HashMap<Integer, Boolean>();
         Random rand = new Random();
         ArrayList<Pair> pairs = new ArrayList<Pair>();
-        while (selected.size() < individuals.size() / 2) {
+        while (selected.size() < individuals.size()) {
             Individual left = null;
             Individual right = null;
-            int leftIdx = rand.nextInt(individuals.size());
-            while (!selected.containsKey(leftIdx)) {
-                left = individuals.get(leftIdx);
-                selected.put(leftIdx, true);
-            }
-            int rightIdx = rand.nextInt(individuals.size());
-            while (!selected.containsKey(rightIdx)) {
-                right = individuals.get(rightIdx);
-                selected.put(rightIdx, true);
-            }
+
+            int leftIdx = -1;
+            do {
+                leftIdx = rand.nextInt(individuals.size());
+            } while (selected.containsKey(leftIdx));
+            left = individuals.get(leftIdx);
+            selected.put(leftIdx, true);
+
+            int rightIdx = -1;
+            do {
+                rightIdx = rand.nextInt(individuals.size());
+            } while (selected.containsKey(rightIdx));
+
+            right = individuals.get(rightIdx);
+            selected.put(rightIdx, true);
+
             pairs.add(new Pair(left, right));
         }
         // A . B C D
