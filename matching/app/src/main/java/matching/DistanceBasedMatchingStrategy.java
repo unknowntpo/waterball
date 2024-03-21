@@ -2,14 +2,14 @@ package matching;
 
 import java.util.List;
 import java.util.Random;
-
-import org.checkerframework.common.value.qual.ArrayLen;
-
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DistanceBasedMatchingStrategy extends MatchingStrategy {
     private Modifier modifier;
+
+    private static final Logger LOGGER = Logger.getLogger(DistanceBasedMatchingStrategy.class.getClass().getName());
 
     @Override
     List<Pair> doMatch(List<Individual> individuals) {
@@ -17,7 +17,7 @@ public class DistanceBasedMatchingStrategy extends MatchingStrategy {
         HashMap<Integer, Boolean> selected = new HashMap<Integer, Boolean>();
         Random rand = new Random();
         ArrayList<Pair> pairs = new ArrayList<Pair>();
-        while (selected.size() < individuals.size()) {
+        while (selected.size() < individuals.size() / 2) {
             Individual left = null;
             Individual right = null;
             int leftIdx = rand.nextInt(individuals.size());
