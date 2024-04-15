@@ -19,7 +19,7 @@ public class HabitBasedMatchingStrategyTest {
 		List<Individual> individuals = new ArrayList<>();
 
 		individuals.add(new Individual(1, Individual.Gender.MALE, 25, "Intro of individual 1",
-				"mountain_climbing", "Coor 1"));
+				"workout,swimming,jogging", "Coor 1"));
 		individuals.add(new Individual(2, Individual.Gender.FEMALE, 30, "Intro of individual 2",
 				"game,sleep,coffee", "Coor 2"));
 		individuals
@@ -30,7 +30,7 @@ public class HabitBasedMatchingStrategyTest {
 
 		this.strategy = new HabitBasedMatchingStrategy();
 		var pairs = this.strategy.match(individuals);
-		assertTrue(pairs.size() / 2 == individuals.size(),
+		assertTrue(pairs.size() == individuals.size() / 2,
 				"length of pairs should be individuals.size() / 2");
 
 		// assertTrue(this.strategy.match(individuals).size() / 2 == individuals.size(),
